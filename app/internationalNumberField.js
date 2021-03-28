@@ -1,10 +1,28 @@
-/*
- * @author  Cesar Pedro Zea Gomez
- *          cesarzea@jaunesistemas.com
+/***
+ * @author  Cesar Pedro Zea Gomez <cesarzea@jaunesistemas.com>
  *          https://www.cesarzea.com
+ *          Contact me for freelance jobs, suggestions, doubts, queries, etc.
  *
+ * @title   Ext.field.Number internationalization
  *
- * @title   Numberfield internationalization.
+ * Sencha Fiddle: https://fiddle.sencha.com/#view/editor&fiddle/3coe
+ * GitHub repo  : https://github.com/cesarzea/internationalNumberField
+ *
+ * This redefinition of Ext.field.Number adds the property
+ * showThousandSeparator, whose default value is true, which will establish
+ * whether or not you want the component to show the thousands separators in
+ * the number.
+ *
+ * Also using the already existing properties [decimals] and [decimalSeparator]
+ * allows to display and edit the numbers according to the following two
+ * international formats:
+ *
+ * Europe format   :  1.124.543,00
+ * American Format :  1,124,543.00
+ *
+ * Regardless of the format chosen, the getValue () and setValue () methods will
+ * continue to accept and return values in the standard format that uses the
+ * period as a decimal point.
  *
  */
 Ext.override(Ext.field.Number, {
@@ -37,6 +55,11 @@ Ext.override(Ext.field.Number, {
         showThousandSeparator: true
     },
 
+    /**
+     * Constructor override to define the new properties default values.
+     *
+     * @param config
+     */
     constructor: function (config) {
 
         if (config.decimalSeparator === undefined)
@@ -50,6 +73,11 @@ Ext.override(Ext.field.Number, {
 
     },
 
+    /**
+     * Initializa function override.
+     *
+     * @param c
+     */
     initialize: function (c) {
 
         // Set the text aligment to right.
@@ -61,12 +89,19 @@ Ext.override(Ext.field.Number, {
 
     },
 
+    /**
+     * applyInputValue override.
+     *
+     * @param value
+     * @returns {any}
+     */
     applyInputValue: function (value) {
 
         // Remove the thousands separators
         if (value && Ext.isString(value) && this.thousandSeparator) {
             value = value.replaceAll(this.thousandSeparator, '');
         }
+
 
         // Change the configured decimal separator for the system decimal separator.
         if (value && Ext.isString(value) && this.getDecimalSeparator())
@@ -128,6 +163,13 @@ Ext.override(Ext.field.Number, {
         return v;
     },
 
+    /**
+     * applyValue override.
+     *
+     * @param value
+     * @param oldValue
+     * @returns {*}
+     */
     applyValue: function (value, oldValue) {
 
         this.updateDecimals();
@@ -152,6 +194,12 @@ Ext.override(Ext.field.Number, {
 
     privates: {
 
+        /**
+         * calculateNewValue override.
+         *
+         * @param text
+         * @returns {string}
+         */
         calculateNewValue: function (text) {
 
             var me = this,
@@ -171,6 +219,9 @@ Ext.override(Ext.field.Number, {
             return raw;
         },
 
+        /**
+         * syncDecimalValidator override.
+         */
         syncDecimalValidator: function () {
 
             var me = this,

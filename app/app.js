@@ -1,10 +1,30 @@
-/*
- * @author  Cesar Pedro Zea Gomez
- *          cesarzea@jaunesistemas.com
+/***
+ * @author  Cesar Pedro Zea Gomez <cesarzea@jaunesistemas.com>
  *          https://www.cesarzea.com
+ *          Contact me for freelance jobs, suggestions, doubts, queries, etc.
  *
+ * @title   Ext.field.Number internationalization demo app.
  *
- * @title   Working in progress...
+ * Sencha Fiddle: https://fiddle.sencha.com/#view/editor&fiddle/3coe
+ * GitHub repo  : https://github.com/cesarzea/internationalNumberField
+ *
+ * This is the demo application for internationalNumberField.js
+ *
+ * This redefinition of Ext.field.Number adds the property
+ * showThousandSeparator, whose default value is true, which will establish
+ * whether or not you want the component to show the thousands separators in
+ * the number.
+ *
+ * Also using the already existing properties [decimals] and [decimalSeparator]
+ * allows to display and edit the numbers according to the following two
+ * international formats:
+ *
+ * Europe format   :  1.124.543,00
+ * American Format :  1,124,543.00
+ *
+ * Regardless of the format chosen, the getValue () and setValue () methods will
+ * continue to accept and return values in the standard format that uses the
+ * period as a decimal point.
  *
  */
 Ext.application({
@@ -19,7 +39,7 @@ Ext.application({
             items: [{
                 xtype: 'fieldset',
                 title: '',
-                width: 300,
+                width: 350,
                 layout: 'vbox',
                 items: [{
                     xtype: 'spinnerfield',
@@ -64,7 +84,8 @@ Ext.application({
                     layout: 'vbox',
                     items: [{
                         xtype: 'numberfield',
-                        label: 'English value',
+                        label: 'EEUU format',
+                        labelWidth: 150,
 
                         name: 'engValue',
                         value: 100000.234,
@@ -74,7 +95,8 @@ Ext.application({
 
                     }, {
                         xtype: 'numberfield',
-                        label: 'European value',
+                        label: 'European format',
+                        labelWidth: 150,
 
                         name: 'euValue',
                         value: 100000.234,
