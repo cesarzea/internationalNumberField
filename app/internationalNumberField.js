@@ -1,9 +1,10 @@
 /***
  * @author  Cesar Pedro Zea Gomez <cesarzea@jaunesistemas.com>
  *          https://www.cesarzea.com
- *          Contact me for freelance jobs, suggestions, doubts, queries, etc.
+ *          Contact me for freelance jobs, suggestions, doubts, questions, etc.
  *
  * @title   Ext.field.Number internationalization
+ * @version 20210428 2171
  *
  * Sencha Fiddle: https://fiddle.sencha.com/#view/editor&fiddle/3coe
  * GitHub repo  : https://github.com/cesarzea/internationalNumberField
@@ -23,6 +24,10 @@
  * Regardless of the format chosen, the getValue () and setValue () methods will
  * continue to accept and return values in the standard format that uses the
  * period as a decimal point.
+ * 
+ * Version History
+ * ----------------------
+ * 2021.04.28 17:37 - Fixes for old Chrome versions compatibility.
  *
  */
 Ext.override(Ext.field.Number, {
@@ -99,7 +104,7 @@ Ext.override(Ext.field.Number, {
 
         // Remove the thousands separators
         if (value && Ext.isString(value) && this.thousandSeparator) {
-            value = value.replaceAll(this.thousandSeparator, '');
+            value = this.replaceAll(value, this.thousandSeparator, '');
         }
 
 
@@ -178,7 +183,7 @@ Ext.override(Ext.field.Number, {
         if (value && typeof value === 'string') {
 
             if (this.getDecimalSeparator() === ',')
-                value = value.replaceAll('.', ',');
+                value = this.replaceAll(value, '.', ',');
 
             value = this.parseValue(value);
             if (value === null) {
@@ -206,7 +211,7 @@ Ext.override(Ext.field.Number, {
                 textSelection = me.getTextSelection(),
                 raw = this.inputElement.dom.value; //= me.getInputValue();
 
-            raw = raw.replaceAll(this.thousandSeparator, '');
+            raw = this.replaceAll(raw, this.thousandSeparator, '');
 
             // Characters are selected, replace them.
             if (textSelection[1]) {
@@ -235,6 +240,13 @@ Ext.override(Ext.field.Number, {
             );
 
             me.validate();
+        },
+
+        replaceAll(value, strFrom, strTo) {
+            while (value.indexOf(strFrom) != -1) {
+                value = value.replace(strFrom, strTo);
+            }
+            return value;
         }
 
     }
